@@ -1,0 +1,15 @@
+{
+  "name": "spotify-genre-playlists",
+  "version": "1.0.0",
+  "description": "This app lists spotfiy playilists per genre",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Dorian Syruss",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
+}
