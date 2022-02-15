@@ -5,7 +5,7 @@ module.exports = {
     '@extensionengine',
     'plugin:@typescript-eslint/recommended'
   ],
-  plugins: ['require-sort'],
+  plugins: ['require-sort', '@typescript-eslint'],
   rules: {
     'require-sort/require-sort': ['error', {
       ignoreCase: true,
