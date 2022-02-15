@@ -1,11 +1,9 @@
-'use strict';
-
 module.exports = {
   root: true,
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   extends: [
-    "@extensionengine",
-    "plugin:@typescript-eslint/recommended"
+    '@extensionengine',
+    'plugin:@typescript-eslint/recommended'
   ],
   plugins: ['require-sort'],
   rules: {
