@@ -96,3 +96,5 @@ const APIController = (function () {
     }
   };
 })();
+
+export default APIController;
