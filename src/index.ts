@@ -1,52 +1,47 @@
-type JsonObject = Record<string, unknown>;
+import IApiController from './Interfaces/APIController';
 
-type Category = {
-  href: string,
-  items: JsonObject[],
-  limit: number,
-  offset: number,
-  previous: string,
-  total: number
-};
+class ApiController implements IApiController {
+  #clientId;
+  #clientSecret;
 
-const APIController = (function () {
-  const clientId = 'ADD YOUR CLIENT ID';
-  const clientSecret = 'ADD YOUR CLIENT SECRET';
+  constructor(clientId:string, clientSecret:string) {
+    this.#clientId = clientId;
+    this.#clientSecret = clientSecret;
+  }
 
-  // private methods
-  const _getToken = async ():Promise<string> => {
+  async getToken() {
     const result = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic ' + btoa(clientId + ':' + clientSecret)
+        Authorization: 'Basic ' + btoa(this.#clientId + ':' + this.#clientSecret)
       },
       body: 'grant_type=client_credentials'
     });
 
     const data = await result.json();
     return data.access_token;
-  };
+  }
 
-  const _getCategory = async (token:string):Promise<Category[]> => {
+  async getCategory(token:string) {
     const result = await fetch('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token }
     });
     const data = await result.json();
     return data.categories;
-  };
+  }
 
-  const _getGenres = async (token:string):Promise<JsonObject[]> => {
+  async getGenres(token:string) {
     const result = await fetch('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token }
     });
     const data = await result.json();
     return data.categories.items;
-  };
+  }
 
-  const _getPlaylistByGenre = async (token:string, genreId:number):Promise<JsonObject[]> => {
+  async getPlaylistByGenre(token:string, genreId:number) {
     const limit = 10;
     const result = await fetch(`https://api.spotify.com/v1/browse/categories/${genreId}/playlists?limit=${limit}`, {
       method: 'GET',
@@ -54,9 +49,9 @@ const APIController = (function () {
     });
     const data = await result.json();
     return data.playlists.items;
-  };
+  }
 
-  const _getTracks = async (token:string, tracksEndPoint:string):Promise<JsonObject[]> => {
+  async getTracks(token:string, tracksEndPoint:string) {
     const limit = 10;
     const result = await fetch(`${tracksEndPoint}?limit=${limit}`, {
       method: 'GET',
@@ -64,37 +59,16 @@ const APIController = (function () {
     });
     const data = await result.json();
     return data.items;
-  };
+  }
 
-  const _getTrack = async (token:string, trackEndPoint:string):Promise<JsonObject> => {
+  async getTrack(token:string, trackEndPoint:string) {
     const result = await fetch(`${trackEndPoint}`, {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token }
     });
     const data = await result.json();
     return data;
-  };
+  }
+}
 
-  return {
-    getToken() {
-      return _getToken();
-    },
-    getGenres(token:string) {
-      return _getGenres(token);
-    },
-    _getCategory(token:string) {
-      return _getCategory(token);
-    },
-    getPlaylistByGenre(token:string, genreId:number) {
-      return _getPlaylistByGenre(token, genreId);
-    },
-    getTracks(token:string, tracksEndPoint:string) {
-      return _getTracks(token, tracksEndPoint);
-    },
-    getTrack(token:string, trackEndPoint:string) {
-      return _getTrack(token, trackEndPoint);
-    }
-  };
-})();
-
-export default APIController;
+export default ApiController;
