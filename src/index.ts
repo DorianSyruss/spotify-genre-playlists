@@ -14,7 +14,7 @@ const APIController = (function () {
   const clientSecret = 'ADD YOUR CLIENT SECRET';
 
   // private methods
-  const _getToken = async ():Promise<void> => {
+  const _getToken = async ():Promise<string> => {
     const result = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
