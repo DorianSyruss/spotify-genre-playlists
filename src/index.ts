@@ -1,5 +1,14 @@
 import IApiController from './Interfaces/APIController';
 
+const SPOTIFY_BASE_URL = 'https://accounts.spotify.com';
+const SPOTIFY_API_URL = 'https://accounts.spotify.com/v1';
+
+const Urls = {
+  TOKEN: `${SPOTIFY_BASE_URL}/api/token`,
+  GENRES: `${SPOTIFY_API_URL}/browse/categories?locale=sv_US`,
+  PLAYLIST_BY_GENRE: (genreId: number, limit: number) => `${SPOTIFY_API_URL}/browse/categories/${genreId}/playlists?limit=${limit}`
+};
+
 class ApiController implements IApiController {
   #clientId;
   #clientSecret;
@@ -10,7 +19,7 @@ class ApiController implements IApiController {
   }
 
   async getToken() {
-    const result = await fetch('https://accounts.spotify.com/api/token', {
+    const result = await fetch(Urls.TOKEN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -24,7 +33,7 @@ class ApiController implements IApiController {
   }
 
   async getCategory(token:string) {
-    const result = await fetch('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
+    const result = await fetch(Urls.GENRES, {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token }
     });
@@ -33,7 +42,7 @@ class ApiController implements IApiController {
   }
 
   async getGenres(token:string) {
-    const result = await fetch('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
+    const result = await fetch(Urls.GENRES, {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token }
     });
@@ -43,7 +52,7 @@ class ApiController implements IApiController {
 
   async getPlaylistByGenre(token:string, genreId:number) {
     const limit = 10;
-    const result = await fetch(`https://api.spotify.com/v1/browse/categories/${genreId}/playlists?limit=${limit}`, {
+    const result = await fetch(Urls.PLAYLIST_BY_GENRE(genreId, limit), {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token }
     });
