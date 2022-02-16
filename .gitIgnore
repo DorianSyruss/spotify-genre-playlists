@@ -15,10 +15,6 @@ npm-debug.log*
 .env
 ecosystem.config.js
 
-# Tailor dump storage
-data/*
-!data/.gitkeep
-
 # Build artifacts
 dist/*
 !dist/.gitkeep
@@ -26,3 +22,6 @@ stats.json
 
 # General
 .DS_Store
+
+# Parcel
+.parcel-cache
