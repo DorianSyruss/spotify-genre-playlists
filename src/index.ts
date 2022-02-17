@@ -13,12 +13,12 @@ class ApiController implements IApiController {
   #clientId;
   #clientSecret;
 
-  constructor(clientId:string, clientSecret:string) {
+  constructor(clientId: string, clientSecret: string) {
     this.#clientId = clientId;
     this.#clientSecret = clientSecret;
   }
 
-  async getToken():Promise<string> {
+  async getToken(): Promise<string> {
     const result = await fetch(Urls.TOKEN, {
       method: 'POST',
       headers: {
@@ -32,7 +32,7 @@ class ApiController implements IApiController {
     return data.access_token;
   }
 
-  async getCategory(token:string):Promise<Category[]> {
+  async getCategory(token: string): Promise<Category[]> {
     const result = await fetch(Urls.GENRES, {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token }
@@ -41,7 +41,7 @@ class ApiController implements IApiController {
     return data.categories;
   }
 
-  async getGenres(token:string):Promise<JsonObject[]> {
+  async getGenres(token: string): Promise<JsonObject[]> {
     const result = await fetch(Urls.GENRES, {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token }
@@ -50,7 +50,7 @@ class ApiController implements IApiController {
     return data.categories.items;
   }
 
-  async getPlaylistByGenre(token:string, genreId:number):Promise<string> {
+  async getPlaylistByGenre(token: string, genreId: number): Promise<string> {
     const limit = 10;
     const result = await fetch(Urls.PLAYLIST_BY_GENRE(genreId, limit), {
       method: 'GET',
@@ -60,7 +60,7 @@ class ApiController implements IApiController {
     return data.playlists.items;
   }
 
-  async getTracks(token:string, tracksEndPoint:string):Promise<JsonObject[]> {
+  async getTracks(token: string, tracksEndPoint: string): Promise<JsonObject[]> {
     const limit = 10;
     const result = await fetch(`${tracksEndPoint}?limit=${limit}`, {
       method: 'GET',
@@ -70,7 +70,7 @@ class ApiController implements IApiController {
     return data.items;
   }
 
-  async getTrack(token:string, trackEndPoint:string):Promise<JsonObject> {
+  async getTrack(token: string, trackEndPoint: string): Promise<JsonObject> {
     const result = await fetch(`${trackEndPoint}`, {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token }
